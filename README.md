@@ -1,23 +1,48 @@
-# Bee Haven — Data Engineering Pipeline (Bronze to Silver)
+## 🐝 Bee Haven Data Pipeline & Enrichment
 
-This repository contains the data preparation pipeline for the **Bee Haven** project. Raw IoT sensor metrics are collected, cleaned, standardized, and stored in optimized Parquet format for downstream analytics.
+A end-to-end Data Engineering pipeline designed to process beehive telemetry data and enrich it with external historical weather observations using the **Medallion Architecture pattern** (Bronze → Silver → Gold).
 
 ---
 
-## 🏗 Project Architecture & Structure
+## 🏗️ Architecture & Data Flow
+
+1. **Bronze Layer (Raw Storage)**
+   - Raw CSV telemetry files (hive weight, internal temperature, humidity, bee flow).
+   - Unedited raw JSON responses fetched directly from external APIs.
+
+2. **Silver Layer (Cleaned & Standardized)**
+   - Processed telemetry data converted to optimized **Parquet** format.
+   - Cleaned hourly weather dataset (temperature, humidity, precipitation, wind speed) aligned with hive observation timeframes.
+
+3. **Gold Layer (Analytical & Business Ready)**
+   - Aggregated metrics and feature-engineered datasets combining environmental and hive parameters for downstream analysis.
+
+---
+
+## 🛠️ Tech Stack & Tools
+
+- **Language:** Python 3.13
+- **Data Manipulation:** `pandas`
+- **Storage Formats:** CSV, JSON, Apache Parquet
+- **External Integration:** BrightSky Weather API (`requests`)
+- **Environment & Control:** Jupyter Notebooks, Git / GitHub
+
+---
+
+## 📂 Repository Structure
 
 ```text
-BEE_HAVEN/
- ├── 📁 bronze/          # Raw input data layer (CSV files)
- │    ├── 📁 archive/
- │    └── 📁 new/
- ├── 📁 silver/          # Cleaned & standardized Parquet layer
- ├── 📁 gold/            # Business aggregations layer
- ├── 📁 notebooks/       # Jupyter Notebooks
- │    └── 02_silver_layer_processing.ipynb
- ├── 📄 .gitignore
- ├── 📄 README.md
- └── 📄 requirements.txt
+Bee_Haven/
+├── bronze/                 # Raw telemetry CSVs and API JSON responses
+│   ├── new/
+│   └── weather/
+├── silver/                 # Standardized, cleaned Parquet datasets
+├── notebooks/
+│   ├── 02_silver_layer_processing.ipynb   # Telemetry data transformation
+│   └── 03_weather_api_processing.ipynb    # Weather API extraction & processing
+├── .gitignore              # Version control ignore rules
+├── README.md               # Project overview
+└── requirements.txt        # Python dependencies
 
 ## Datasets Handled
 
